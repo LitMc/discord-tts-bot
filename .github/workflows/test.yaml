@@ -13,4 +13,6 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots verify
+        run: ./mvnw clean test
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
