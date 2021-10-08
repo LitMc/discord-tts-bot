@@ -19,6 +19,6 @@ jobs:
         with:
           files: 'src/main/appengine/app.yaml'
         env:
-          env_variables.BOT_TOKEN: ${{ secrets.GCP_SA_KEY }}
+          env_variables.BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
       - name: Deploy
         run: gcloud app deploy --version=v1 --stop-previous-version
