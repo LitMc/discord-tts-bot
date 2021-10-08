@@ -1,0 +1,13 @@
+# ローカルではresources/application-personal.yamlを読む
+spring:
+  profiles:
+    include: personal
+
+# App Engineの推奨に従いPORT環境変数で待ち受ける
+server:
+  port: ${PORT:8080}
+
+# Bot設定
+tts-bot:
+  discord:
+    bot-token: ${BOT_TOKEN}
