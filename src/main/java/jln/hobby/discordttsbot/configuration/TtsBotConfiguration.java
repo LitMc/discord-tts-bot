@@ -1,6 +1,6 @@
 package jln.hobby.discordttsbot.configuration;
 
-import jln.hobby.discordttsbot.listener.TextToTextListener;
+import jln.hobby.discordttsbot.listener.TextToSpeechListener;
 import jln.hobby.discordttsbot.property.TtsBotProperties;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -17,11 +17,11 @@ import javax.security.auth.login.LoginException;
 @EnableConfigurationProperties(value = {TtsBotProperties.class})
 public class TtsBotConfiguration {
 
-    private final TextToTextListener textToTextListener;
+    private final TextToSpeechListener textToSpeechListener;
     private final TtsBotProperties ttsBotProperties;
 
-    public TtsBotConfiguration(TextToTextListener textToTextListener, TtsBotProperties ttsBotProperties) {
-        this.textToTextListener = textToTextListener;
+    public TtsBotConfiguration(TextToSpeechListener textToSpeechListener, TtsBotProperties ttsBotProperties) {
+        this.textToSpeechListener = textToSpeechListener;
         this.ttsBotProperties = ttsBotProperties;
     }
 
@@ -31,8 +31,9 @@ public class TtsBotConfiguration {
     @Bean
     public JDA jda() throws LoginException, InterruptedException {
         return JDABuilder.createDefault(ttsBotProperties.discord.botToken)
-                .addEventListeners(textToTextListener)
+                .addEventListeners(textToSpeechListener)
                 .build()
                 .awaitReady();
     }
+
 }

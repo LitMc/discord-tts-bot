@@ -30,8 +30,11 @@ class TtsBotPropertiesTest {
     }
 
     @Test
-    @DisplayName("application.yamlからBotのトークンを取得できること")
-    void testLoadProperties() {
+    @DisplayName("application.yamlのtts-bot配下の設定値を読めること")
+    void testGetBotToken() {
         assertEquals("this is dummy", ttsBotProperties.discord.botToken);
+        assertEquals("k.con", ttsBotProperties.command.connect);
+        assertEquals("k.dc", ttsBotProperties.command.disconnect);
     }
+
 }

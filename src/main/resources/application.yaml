@@ -11,3 +11,9 @@ server:
 tts-bot:
   discord:
     bot-token: ${BOT_TOKEN}
+  # Botへの指示語
+  command:
+    # ボイスチャンネルへ接続
+    connect: "k.con"
+    # ボイスチャンネルから切断
+    disconnect: "k.dc"
