@@ -17,3 +17,9 @@ tts-bot:
     connect: "k.con"
     # ボイスチャンネルから切断
     disconnect: "k.dc"
+  google:
+    text-to-speech:
+      # Google Text-to-Speech(TTS) APIのエンドポイントURL
+      api-url: https://texttospeech.googleapis.com/v1/text:synthesize
+      # TTS APIを叩くための認証トークン
+      token: ${AUTH_TOKEN}

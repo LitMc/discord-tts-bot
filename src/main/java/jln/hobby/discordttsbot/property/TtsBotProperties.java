@@ -14,17 +14,12 @@ public class TtsBotProperties {
 
     public final Command command;
 
-    public TtsBotProperties(Discord discord, Command command) {
+    public final Google google;
+
+    public TtsBotProperties(Discord discord, Command command, Google google) {
         this.discord = discord;
         this.command = command;
-    }
-
-    public Discord getDiscord() {
-        return discord;
-    }
-
-    public Command getCommand() {
-        return command;
+        this.google = google;
     }
 
     public static class Discord {
@@ -32,10 +27,6 @@ public class TtsBotProperties {
 
         public Discord(String botToken) {
             this.botToken = botToken;
-        }
-
-        public String getBotToken() {
-            return botToken;
         }
     }
 
@@ -48,13 +39,24 @@ public class TtsBotProperties {
             this.connect = connect;
             this.disconnect = disconnect;
         }
+    }
 
-        public String getConnect() {
-            return connect;
+    public static class Google {
+
+        public final TextToSpeech textToSpeech;
+
+        public Google(TextToSpeech textToSpeech) {
+            this.textToSpeech = textToSpeech;
         }
 
-        public String getDisconnect() {
-            return disconnect;
+        public static class TextToSpeech {
+            public final String apiUrl;
+            public final String token;
+
+            public TextToSpeech(String apiUrl, String token) {
+                this.apiUrl = apiUrl;
+                this.token = token;
+            }
         }
     }
 }

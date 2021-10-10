@@ -1,3 +1,6 @@
 tts-bot:
   discord:
-    bot-token: "this is dummy"
+    bot-token: "dummy bot token"
+  google:
+    text-to-speech:
+      token: "dummy auth token"
