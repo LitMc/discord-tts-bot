@@ -28,4 +28,4 @@ tts-bot:
       # 性別
       ssml-gender: male
       # オーディオエンコード
-      audio-encoding: ogg_opus
+      audio-encoding: linear16

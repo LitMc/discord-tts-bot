@@ -36,8 +36,12 @@ public class TextToSpeechListener extends ListenerAdapter {
 
         if (Objects.equals(content, connectCommand)) {
             service.connect(event);
+            return;
         } else if (Objects.equals(content, disconnectCommand)) {
             service.disconnect(event);
+            return;
         }
+
+        service.textToSpeech(content, event.getGuild());
     }
 }

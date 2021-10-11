@@ -1,34 +1,35 @@
-package jln.hobby.discordttsbot.sendhandler;
+package jln.hobby.discordttsbot.lavaplayer;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
+import com.sedmelluq.discord.lavaplayer.track.playback.MutableAudioFrame;
 import net.dv8tion.jda.api.audio.AudioSendHandler;
-import org.jetbrains.annotations.Nullable;
 
 import java.nio.ByteBuffer;
-import java.util.Objects;
 
 /**
- * AudioPlayerのJDA 4向けラッパー
+ * JDAに呼ばれるオーディオ再生処理を実装したクラス
  */
 public class AudioPlayerSendHandler implements AudioSendHandler {
+
     private final AudioPlayer audioPlayer;
-    private AudioFrame lastFrame;
+    private final ByteBuffer buffer;
+    private final MutableAudioFrame frame;
 
     public AudioPlayerSendHandler(AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
+        this.buffer = ByteBuffer.allocate(1024);
+        this.frame = new MutableAudioFrame();
+        this.frame.setBuffer(this.buffer);
     }
 
     @Override
     public boolean canProvide() {
-        lastFrame = audioPlayer.provide();
-        return Objects.nonNull(lastFrame);
+        return audioPlayer.provide(frame);
     }
 
-    @Nullable
     @Override
     public ByteBuffer provide20MsAudio() {
-        return ByteBuffer.wrap(lastFrame.getData());
+        return this.buffer.flip();
     }
 
     @Override

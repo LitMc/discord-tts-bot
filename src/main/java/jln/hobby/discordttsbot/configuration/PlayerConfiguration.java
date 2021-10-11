@@ -1,9 +1,10 @@
 package jln.hobby.discordttsbot.configuration;
 
+import com.sedmelluq.discord.lavaplayer.format.StandardAudioDataFormats;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
-import jln.hobby.discordttsbot.sendhandler.AudioPlayerSendHandler;
+import jln.hobby.discordttsbot.lavaplayer.AudioPlayerSendHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ConcurrentReferenceHashMap;
@@ -17,6 +18,7 @@ public class PlayerConfiguration {
     public AudioPlayerManager audioPlayerManager() {
         AudioPlayerManager audioPlayerManager = new DefaultAudioPlayerManager();
         AudioSourceManagers.registerRemoteSources(audioPlayerManager);
+        audioPlayerManager.getConfiguration().setOutputFormat(StandardAudioDataFormats.DISCORD_OPUS);
         return audioPlayerManager;
     }
 

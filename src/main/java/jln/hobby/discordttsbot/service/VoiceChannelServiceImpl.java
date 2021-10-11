@@ -1,33 +1,47 @@
 package jln.hobby.discordttsbot.service;
 
+import com.google.protobuf.ByteString;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
-import jln.hobby.discordttsbot.property.TtsBotProperties;
-import jln.hobby.discordttsbot.sendhandler.AudioPlayerSendHandler;
+import jln.hobby.discordttsbot.dao.GoogleTextToSpeechDao;
+import jln.hobby.discordttsbot.lavaplayer.TextToSpeechSendHandler;
+import jln.hobby.discordttsbot.lavaplayer.GuildInstanceManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ConcurrentReferenceHashMap;
 
-import java.util.Objects;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class VoiceChannelServiceImpl implements VoiceChannelService {
 
-    private final TtsBotProperties properties;
     private final AudioPlayerManager audioPlayerManager;
-    private final ConcurrentReferenceHashMap<String, AudioPlayerSendHandler> audioPlayerSendHandlerMap;
+    private final GoogleTextToSpeechDao googleTextToSpeechDao;
+    private final Map<String, GuildInstanceManager> guildInstanceMap;
 
     public VoiceChannelServiceImpl(
-            TtsBotProperties properties,
             AudioPlayerManager audioPlayerManager,
-            ConcurrentReferenceHashMap<String, AudioPlayerSendHandler> audioPlayerSendHandlerMap
+            GoogleTextToSpeechDao googleTextToSpeechDao
     ) {
-        this.properties = properties;
         this.audioPlayerManager = audioPlayerManager;
-        this.audioPlayerSendHandlerMap = audioPlayerSendHandlerMap;
+        this.googleTextToSpeechDao = googleTextToSpeechDao;
+        this.guildInstanceMap = new ConcurrentHashMap<>();
+    }
+
+    private synchronized GuildInstanceManager getGuildAudioPlayer(Guild guild) {
+        // Guild毎に異なるAudioPlayerSendHandlerを使う
+        // https://github.com/DV8FromTheWorld/JDA/wiki/4%29-Making-a-Music-Bot#a-working-example
+        guildInstanceMap.putIfAbsent(
+                guild.getId(),
+                new GuildInstanceManager(audioPlayerManager)
+        );
+
+        TextToSpeechSendHandler handler = guildInstanceMap.get(guild.getId()).getSendHandler();
+        guild.getAudioManager().setSendingHandler(handler);
+        return guildInstanceMap.get(guild.getId());
     }
 
     @Override
@@ -42,18 +56,18 @@ public class VoiceChannelServiceImpl implements VoiceChannelService {
         VoiceChannel channel = state.getChannel();
         AudioManager manager = guild.getAudioManager();
 
-        // Guild毎に異なるAudioPlayerSendHandlerを使う
-        // https://github.com/DV8FromTheWorld/JDA/wiki/4%29-Making-a-Music-Bot#a-working-example
-        audioPlayerSendHandlerMap.putIfAbsent(
-                guild.getId(),
-                new AudioPlayerSendHandler(audioPlayerManager.createPlayer())
-        );
-        manager.setSendingHandler(audioPlayerSendHandlerMap.get(guild.getId()));
+        getGuildAudioPlayer(guild);
         manager.openAudioConnection(channel);
     }
 
     @Override
     public void disconnect(GuildMessageReceivedEvent event) {
         event.getGuild().getAudioManager().closeAudioConnection();
+    }
+
+    @Override
+    public void textToSpeech(String text, Guild guild) {
+        ByteString audioContents = googleTextToSpeechDao.getAudioContents(text);
+        guildInstanceMap.get(guild.getId()).getSendHandler().enqueue(audioContents.toByteArray());
     }
 }

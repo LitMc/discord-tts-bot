@@ -22,7 +22,11 @@ public class GoogleTextToSpeechDaoImpl implements GoogleTextToSpeechDao {
         this.ssmlVoiceGender = properties.google.textToSpeech.ssmlGender;
         this.name = properties.google.textToSpeech.name;
         this.audioEncoding = properties.google.textToSpeech.audioEncoding;
-        this.audioConfig = AudioConfig.newBuilder().setAudioEncoding(audioEncoding).build();
+        this.audioConfig = AudioConfig.newBuilder()
+                .setAudioEncoding(audioEncoding)
+                .setSpeakingRate(1.3)
+                .setSampleRateHertz(48000)
+                .build();
     }
 
     @Override
