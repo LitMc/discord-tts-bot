@@ -32,7 +32,7 @@ public class VoiceChannelServiceImpl implements VoiceChannelService {
     }
 
     private synchronized GuildInstanceManager getGuildAudioPlayer(Guild guild) {
-        // Guild毎に異なるAudioPlayerSendHandlerを使う
+        // Guild毎に異なるSendHandlerを使う
         // https://github.com/DV8FromTheWorld/JDA/wiki/4%29-Making-a-Music-Bot#a-working-example
         guildInstanceMap.putIfAbsent(
                 guild.getId(),
