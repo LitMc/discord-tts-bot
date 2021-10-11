@@ -1,11 +1,9 @@
 package jln.hobby.discordttsbot.sendhandler;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
 import net.dv8tion.jda.api.audio.AudioSendHandler;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.stereotype.Component;
 
 import java.nio.ByteBuffer;
 import java.util.Objects;
@@ -13,13 +11,12 @@ import java.util.Objects;
 /**
  * AudioPlayerのJDA 4向けラッパー
  */
-@Component
 public class AudioPlayerSendHandler implements AudioSendHandler {
     private final AudioPlayer audioPlayer;
     private AudioFrame lastFrame;
 
-    public AudioPlayerSendHandler(AudioPlayerManager audioPlayerManager) {
-        this.audioPlayer = audioPlayerManager.createPlayer();
+    public AudioPlayerSendHandler(AudioPlayer audioPlayer) {
+        this.audioPlayer = audioPlayer;
     }
 
     @Override
@@ -36,6 +33,6 @@ public class AudioPlayerSendHandler implements AudioSendHandler {
 
     @Override
     public boolean isOpus() {
-        return false;
+        return true;
     }
 }

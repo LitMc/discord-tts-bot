@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.ConfigDataApplicationContextInitial
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.util.ConcurrentReferenceHashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -21,13 +22,14 @@ import static org.mockito.Mockito.*;
 @ContextConfiguration(
         classes = {
                 TestTtsBotConfiguration.class,
-                VoiceChannelServiceImpl.class
+                VoiceChannelServiceImpl.class,
+                ConcurrentReferenceHashMap.class
         },
         initializers = ConfigDataApplicationContextInitializer.class
 )
 @MockBean(classes = {
         GuildMessageReceivedEvent.class,
-        AudioPlayerSendHandler.class
+        AudioPlayerManager.class
 })
 class VoiceChannelServiceImplTest {
     private final VoiceChannelService target;
@@ -35,7 +37,11 @@ class VoiceChannelServiceImplTest {
     private final GuildMessageReceivedEvent event;
 
     @Autowired
-    public VoiceChannelServiceImplTest(VoiceChannelService target, TtsBotProperties properties, GuildMessageReceivedEvent event) {
+    public VoiceChannelServiceImplTest(
+            VoiceChannelService target,
+            TtsBotProperties properties,
+            GuildMessageReceivedEvent event
+    ) {
         this.target = target;
         this.properties = properties;
         this.event = event;
