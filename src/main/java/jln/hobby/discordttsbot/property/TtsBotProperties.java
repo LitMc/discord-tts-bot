@@ -1,5 +1,7 @@
 package jln.hobby.discordttsbot.property;
 
+import com.google.cloud.texttospeech.v1.AudioEncoding;
+import com.google.cloud.texttospeech.v1.SsmlVoiceGender;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
@@ -14,17 +16,12 @@ public class TtsBotProperties {
 
     public final Command command;
 
-    public TtsBotProperties(Discord discord, Command command) {
+    public final Google google;
+
+    public TtsBotProperties(Discord discord, Command command, Google google) {
         this.discord = discord;
         this.command = command;
-    }
-
-    public Discord getDiscord() {
-        return discord;
-    }
-
-    public Command getCommand() {
-        return command;
+        this.google = google;
     }
 
     public static class Discord {
@@ -32,10 +29,6 @@ public class TtsBotProperties {
 
         public Discord(String botToken) {
             this.botToken = botToken;
-        }
-
-        public String getBotToken() {
-            return botToken;
         }
     }
 
@@ -48,13 +41,39 @@ public class TtsBotProperties {
             this.connect = connect;
             this.disconnect = disconnect;
         }
+    }
 
-        public String getConnect() {
-            return connect;
+    public static class Google {
+
+        public final TextToSpeech textToSpeech;
+
+        public Google(TextToSpeech textToSpeech) {
+            this.textToSpeech = textToSpeech;
         }
 
-        public String getDisconnect() {
-            return disconnect;
+        public static class TextToSpeech {
+            public final String token;
+            public final String languageCode;
+            public final String name;
+            public final SsmlVoiceGender ssmlGender;
+            public final AudioEncoding audioEncoding;
+            public final Double speakingRate;
+
+            public TextToSpeech(
+                    String token,
+                    String languageCode,
+                    String name,
+                    SsmlVoiceGender ssmlGender,
+                    AudioEncoding audioEncoding,
+                    Double speakingRate
+            ) {
+                this.token = token;
+                this.languageCode = languageCode;
+                this.name = name;
+                this.ssmlGender = ssmlGender;
+                this.audioEncoding = audioEncoding;
+                this.speakingRate = speakingRate;
+            }
         }
     }
 }

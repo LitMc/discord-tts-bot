@@ -17,3 +17,17 @@ tts-bot:
     connect: "k.con"
     # ボイスチャンネルから切断
     disconnect: "k.dc"
+  google:
+    text-to-speech:
+      # TTS APIを叩くための認証トークン
+      token: ${AUTH_TOKEN}
+      # 言語
+      language-code: "ja-JP"
+      # 音声名
+      name: "ja-JP-Wavenet-C"
+      # 性別
+      ssml-gender: male
+      # オーディオエンコード
+      audio-encoding: linear16
+      # 発話速度
+      speaking-rate: 1.3

@@ -2,9 +2,7 @@ package jln.hobby.discordttsbot.listener;
 
 import jln.hobby.discordttsbot.configuration.TestTtsBotConfiguration;
 import jln.hobby.discordttsbot.property.TtsBotProperties;
-import jln.hobby.discordttsbot.sendhandler.AudioPlayerSendHandler;
 import jln.hobby.discordttsbot.service.VoiceChannelService;
-import jln.hobby.discordttsbot.service.VoiceChannelServiceImpl;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,20 +13,16 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(
         classes = {
-                TestTtsBotConfiguration.class,
-                VoiceChannelServiceImpl.class
+                TestTtsBotConfiguration.class
         },
         initializers = ConfigDataApplicationContextInitializer.class
 )
 @MockBean(classes = {
-        AudioPlayerSendHandler.class,
-        GuildMessageReceivedEvent.class,
+        VoiceChannelService.class,
+        GuildMessageReceivedEvent.class
 })
 class TextToSpeechListenerTest {
     private final TtsBotProperties properties;

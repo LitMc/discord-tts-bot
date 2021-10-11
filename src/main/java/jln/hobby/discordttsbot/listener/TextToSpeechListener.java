@@ -3,8 +3,6 @@ package jln.hobby.discordttsbot.listener;
 import jln.hobby.discordttsbot.property.TtsBotProperties;
 import jln.hobby.discordttsbot.service.VoiceChannelService;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -18,11 +16,13 @@ import java.util.Objects;
 @Component
 public class TextToSpeechListener extends ListenerAdapter {
 
-    private final TtsBotProperties properties;
+    private final String connectCommand;
+    private final String disconnectCommand;
     private final VoiceChannelService service;
 
     public TextToSpeechListener(TtsBotProperties properties, VoiceChannelService service) {
-        this.properties = properties;
+        this.connectCommand = properties.command.connect;
+        this.disconnectCommand = properties.command.disconnect;
         this.service = service;
     }
 
@@ -34,14 +34,14 @@ public class TextToSpeechListener extends ListenerAdapter {
         Message message = event.getMessage();
         String content = message.getContentRaw();
 
-        if (event.getAuthor().isBot()) {
+        if (Objects.equals(content, connectCommand)) {
+            service.connect(event);
+            return;
+        } else if (Objects.equals(content, disconnectCommand)) {
+            service.disconnect(event);
             return;
         }
 
-        if (Objects.equals(content, properties.command.connect)) {
-            service.connect(event);
-        } else if (Objects.equals(content, properties.command.disconnect)) {
-            service.disconnect(event);
-        }
+        service.textToSpeech(content, event.getGuild());
     }
 }
