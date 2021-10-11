@@ -1,5 +1,7 @@
 package jln.hobby.discordttsbot.property;
 
+import com.google.cloud.texttospeech.v1.AudioEncoding;
+import com.google.cloud.texttospeech.v1.SsmlVoiceGender;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
@@ -52,10 +54,25 @@ public class TtsBotProperties {
         public static class TextToSpeech {
             public final String apiUrl;
             public final String token;
+            public final String languageCode;
+            public final String name;
+            public final SsmlVoiceGender ssmlGender;
+            public final AudioEncoding audioEncoding;
 
-            public TextToSpeech(String apiUrl, String token) {
+            public TextToSpeech(
+                    String apiUrl,
+                    String token,
+                    String languageCode,
+                    String name,
+                    SsmlVoiceGender ssmlGender,
+                    AudioEncoding audioEncoding
+            ) {
                 this.apiUrl = apiUrl;
                 this.token = token;
+                this.languageCode = languageCode;
+                this.name = name;
+                this.ssmlGender = ssmlGender;
+                this.audioEncoding = audioEncoding;
             }
         }
     }

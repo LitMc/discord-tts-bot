@@ -23,3 +23,11 @@ tts-bot:
       api-url: https://texttospeech.googleapis.com/v1/text:synthesize
       # TTS APIを叩くための認証トークン
       token: ${AUTH_TOKEN}
+      # 言語
+      language-code: "ja-JP"
+      # 音声名
+      name: "ja-JP-Wavenet-C"
+      # 性別
+      ssml-gender: male
+      # オーディオエンコード
+      audio-encoding: ogg_opus
