@@ -21,14 +21,13 @@ import static org.mockito.Mockito.*;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(
         classes = {
-                TestTtsBotConfiguration.class,
-                VoiceChannelServiceImpl.class
+                TestTtsBotConfiguration.class
         },
         initializers = ConfigDataApplicationContextInitializer.class
 )
 @MockBean(classes = {
-        AudioPlayerSendHandler.class,
-        GuildMessageReceivedEvent.class,
+        VoiceChannelService.class,
+        GuildMessageReceivedEvent.class
 })
 class TextToSpeechListenerTest {
     private final TtsBotProperties properties;

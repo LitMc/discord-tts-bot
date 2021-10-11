@@ -52,7 +52,6 @@ public class TtsBotProperties {
         }
 
         public static class TextToSpeech {
-            public final String apiUrl;
             public final String token;
             public final String languageCode;
             public final String name;
@@ -60,14 +59,12 @@ public class TtsBotProperties {
             public final AudioEncoding audioEncoding;
 
             public TextToSpeech(
-                    String apiUrl,
                     String token,
                     String languageCode,
                     String name,
                     SsmlVoiceGender ssmlGender,
                     AudioEncoding audioEncoding
             ) {
-                this.apiUrl = apiUrl;
                 this.token = token;
                 this.languageCode = languageCode;
                 this.name = name;

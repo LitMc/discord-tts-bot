@@ -35,7 +35,6 @@ class TtsBotPropertiesTest {
         assertEquals("dummy bot token", ttsBotProperties.discord.botToken);
         assertEquals("k.con", ttsBotProperties.command.connect);
         assertEquals("k.dc", ttsBotProperties.command.disconnect);
-        assertEquals("https://texttospeech.googleapis.com/v1/text:synthesize", ttsBotProperties.google.textToSpeech.apiUrl);
         assertEquals("dummy auth token", ttsBotProperties.google.textToSpeech.token);
     }
 
