@@ -29,3 +29,5 @@ tts-bot:
       ssml-gender: male
       # オーディオエンコード
       audio-encoding: linear16
+      # 発話速度
+      speaking-rate: 1.3

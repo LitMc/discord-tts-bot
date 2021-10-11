@@ -57,19 +57,22 @@ public class TtsBotProperties {
             public final String name;
             public final SsmlVoiceGender ssmlGender;
             public final AudioEncoding audioEncoding;
+            public final Double speakingRate;
 
             public TextToSpeech(
                     String token,
                     String languageCode,
                     String name,
                     SsmlVoiceGender ssmlGender,
-                    AudioEncoding audioEncoding
+                    AudioEncoding audioEncoding,
+                    Double speakingRate
             ) {
                 this.token = token;
                 this.languageCode = languageCode;
                 this.name = name;
                 this.ssmlGender = ssmlGender;
                 this.audioEncoding = audioEncoding;
+                this.speakingRate = speakingRate;
             }
         }
     }

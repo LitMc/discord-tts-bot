@@ -13,7 +13,6 @@ public class GoogleTextToSpeechDaoImpl implements GoogleTextToSpeechDao {
     private final String languageCode;
     private final SsmlVoiceGender ssmlVoiceGender;
     private final String name;
-    private final AudioEncoding audioEncoding;
     private final AudioConfig audioConfig;
 
     public GoogleTextToSpeechDaoImpl(TtsBotProperties properties) throws IOException {
@@ -21,11 +20,10 @@ public class GoogleTextToSpeechDaoImpl implements GoogleTextToSpeechDao {
         this.languageCode = properties.google.textToSpeech.languageCode;
         this.ssmlVoiceGender = properties.google.textToSpeech.ssmlGender;
         this.name = properties.google.textToSpeech.name;
-        this.audioEncoding = properties.google.textToSpeech.audioEncoding;
         this.audioConfig = AudioConfig.newBuilder()
-                .setAudioEncoding(audioEncoding)
-                .setSpeakingRate(1.3)
-                .setSampleRateHertz(48000)
+                .setAudioEncoding(properties.google.textToSpeech.audioEncoding)
+                .setSpeakingRate(properties.google.textToSpeech.speakingRate)
+                .setSampleRateHertz(48000) // 48000決め打ちなのでプロパティにしない
                 .build();
     }
 
