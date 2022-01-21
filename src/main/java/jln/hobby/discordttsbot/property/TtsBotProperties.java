@@ -5,6 +5,8 @@ import com.google.cloud.texttospeech.v1.SsmlVoiceGender;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
+import java.util.List;
+
 /**
  * Bot固有の設定項目
  */
@@ -18,10 +20,18 @@ public class TtsBotProperties {
 
     public final Google google;
 
-    public TtsBotProperties(Discord discord, Command command, Google google) {
+    public final List<String> ignorePatterns;
+
+    public TtsBotProperties(
+            Discord discord,
+            Command command,
+            Google google,
+            List<String> ignorePatterns
+    ) {
         this.discord = discord;
         this.command = command;
         this.google = google;
+        this.ignorePatterns = ignorePatterns;
     }
 
     public static class Discord {
