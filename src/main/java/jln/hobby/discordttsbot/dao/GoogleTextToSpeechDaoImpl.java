@@ -24,6 +24,7 @@ public class GoogleTextToSpeechDaoImpl implements GoogleTextToSpeechDao {
                 .setAudioEncoding(properties.google.textToSpeech.audioEncoding)
                 .setSpeakingRate(properties.google.textToSpeech.speakingRate)
                 .setSampleRateHertz(48000) // 48000決め打ちなのでプロパティにしない
+                .setPitch(properties.google.textToSpeech.pitch)
                 .build();
     }
 

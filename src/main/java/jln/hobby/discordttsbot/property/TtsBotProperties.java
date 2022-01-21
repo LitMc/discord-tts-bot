@@ -5,6 +5,8 @@ import com.google.cloud.texttospeech.v1.SsmlVoiceGender;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
+import java.util.List;
+
 /**
  * Bot固有の設定項目
  */
@@ -18,10 +20,18 @@ public class TtsBotProperties {
 
     public final Google google;
 
-    public TtsBotProperties(Discord discord, Command command, Google google) {
+    public final List<String> ignorePatterns;
+
+    public TtsBotProperties(
+            Discord discord,
+            Command command,
+            Google google,
+            List<String> ignorePatterns
+    ) {
         this.discord = discord;
         this.command = command;
         this.google = google;
+        this.ignorePatterns = ignorePatterns;
     }
 
     public static class Discord {
@@ -58,6 +68,7 @@ public class TtsBotProperties {
             public final SsmlVoiceGender ssmlGender;
             public final AudioEncoding audioEncoding;
             public final Double speakingRate;
+            public final Double pitch;
 
             public TextToSpeech(
                     String token,
@@ -65,7 +76,8 @@ public class TtsBotProperties {
                     String name,
                     SsmlVoiceGender ssmlGender,
                     AudioEncoding audioEncoding,
-                    Double speakingRate
+                    Double speakingRate,
+                    Double pitch
             ) {
                 this.token = token;
                 this.languageCode = languageCode;
@@ -73,6 +85,7 @@ public class TtsBotProperties {
                 this.ssmlGender = ssmlGender;
                 this.audioEncoding = audioEncoding;
                 this.speakingRate = speakingRate;
+                this.pitch = pitch;
             }
         }
     }

@@ -11,6 +11,10 @@ server:
 tts-bot:
   discord:
     bot-token: ${BOT_TOKEN}
+  # 読み上げないテキストパターン
+  ignore-patterns:
+    - ".*https?://.*"
+    - ".*:.*:.*"
   # Botへの指示語
   command:
     # ボイスチャンネルへ接続
@@ -30,4 +34,6 @@ tts-bot:
       # オーディオエンコード
       audio-encoding: linear16
       # 発話速度
-      speaking-rate: 1.3
+      speaking-rate: 1.25
+      # ピッチ
+      pitch: -3.0
