@@ -28,7 +28,7 @@ class CommandServiceImplTest {
     }
 
     @Test
-    @DisplayName("URLは読み上げないこと")
+    @DisplayName("URLとスタンプは読み上げないこと")
     void testIsIgnored() {
         assertTrue(target.isIgnored("http://honyarara.com"));
         assertTrue(target.isIgnored("https://honyarara.com"));
@@ -38,6 +38,9 @@ class CommandServiceImplTest {
         assertTrue(target.isIgnored("https://honyarara.com"));
         assertTrue(target.isIgnored("URLはhttps://honyarara.com"));
         assertTrue(target.isIgnored("https://honyarara.comがURL"));
+        assertTrue(target.isIgnored(":yami:"));
+        assertTrue(target.isIgnored("これは:yami:が深い"));
+        assertTrue(target.isIgnored("これは深い:yami:"));
         assertFalse(target.isIgnored("これは読んでください"));
     }
 }
