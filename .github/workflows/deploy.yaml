@@ -20,11 +20,3 @@ jobs:
         run: ./mvnw clean test
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-      - name: Substitute bot token
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: 'src/main/appengine/app.yaml'
-        env:
-          env_variables.BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-      - name: Deploy
-        run: gcloud app deploy --version=v1 --stop-previous-version
