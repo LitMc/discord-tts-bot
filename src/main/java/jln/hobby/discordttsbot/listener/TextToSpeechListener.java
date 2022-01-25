@@ -1,6 +1,7 @@
 package jln.hobby.discordttsbot.listener;
 
 import jln.hobby.discordttsbot.property.TtsBotProperties;
+import jln.hobby.discordttsbot.service.CommandService;
 import jln.hobby.discordttsbot.service.VoiceChannelService;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -18,12 +19,18 @@ public class TextToSpeechListener extends ListenerAdapter {
 
     private final String connectCommand;
     private final String disconnectCommand;
-    private final VoiceChannelService service;
+    private final VoiceChannelService voiceChannelService;
+    private final CommandService commandService;
 
-    public TextToSpeechListener(TtsBotProperties properties, VoiceChannelService service) {
+    public TextToSpeechListener(
+            TtsBotProperties properties,
+            VoiceChannelService voiceChannelService,
+            CommandService commandService
+    ) {
         this.connectCommand = properties.command.connect;
         this.disconnectCommand = properties.command.disconnect;
-        this.service = service;
+        this.voiceChannelService = voiceChannelService;
+        this.commandService = commandService;
     }
 
     @Override
@@ -35,13 +42,17 @@ public class TextToSpeechListener extends ListenerAdapter {
         String content = message.getContentRaw();
 
         if (Objects.equals(content, connectCommand)) {
-            service.connect(event);
+            voiceChannelService.connect(event);
             return;
         } else if (Objects.equals(content, disconnectCommand)) {
-            service.disconnect(event);
+            voiceChannelService.disconnect(event);
             return;
         }
 
-        service.textToSpeech(content, event.getGuild());
+        if (commandService.isIgnored(content)) {
+            return;
+        }
+
+        voiceChannelService.textToSpeech(content, event.getGuild());
     }
 }
