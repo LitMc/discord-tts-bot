@@ -4,6 +4,8 @@ import jln.hobby.discordttsbot.listener.TextToSpeechListener;
 import jln.hobby.discordttsbot.property.TtsBotProperties;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +16,7 @@ import javax.security.auth.login.LoginException;
  * Bot用Configuration
  */
 @Configuration
-@EnableConfigurationProperties(value = {TtsBotProperties.class})
+@EnableConfigurationProperties(value = { TtsBotProperties.class })
 public class TtsBotConfiguration {
 
     private final TextToSpeechListener textToSpeechListener;
@@ -31,6 +33,7 @@ public class TtsBotConfiguration {
     @Bean
     public JDA jda() throws LoginException, InterruptedException {
         return JDABuilder.createDefault(ttsBotProperties.discord.botToken)
+                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .addEventListeners(textToSpeechListener)
                 .build()
                 .awaitReady();

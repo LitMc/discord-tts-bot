@@ -7,8 +7,8 @@ import jln.hobby.discordttsbot.lavaplayer.TextToSpeechSendHandler;
 import jln.hobby.discordttsbot.lavaplayer.GuildInstanceManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
-import net.dv8tion.jda.api.entities.VoiceChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +24,7 @@ public class VoiceChannelServiceImpl implements VoiceChannelService {
 
     public VoiceChannelServiceImpl(
             AudioPlayerManager audioPlayerManager,
-            GoogleTextToSpeechDao googleTextToSpeechDao
-    ) {
+            GoogleTextToSpeechDao googleTextToSpeechDao) {
         this.audioPlayerManager = audioPlayerManager;
         this.googleTextToSpeechDao = googleTextToSpeechDao;
         this.guildInstanceMap = new ConcurrentHashMap<>();
@@ -36,8 +35,7 @@ public class VoiceChannelServiceImpl implements VoiceChannelService {
         // https://github.com/DV8FromTheWorld/JDA/wiki/4%29-Making-a-Music-Bot#a-working-example
         guildInstanceMap.putIfAbsent(
                 guild.getId(),
-                new GuildInstanceManager(audioPlayerManager)
-        );
+                new GuildInstanceManager(audioPlayerManager));
 
         TextToSpeechSendHandler handler = guildInstanceMap.get(guild.getId()).getSendHandler();
         guild.getAudioManager().setSendingHandler(handler);
@@ -45,15 +43,15 @@ public class VoiceChannelServiceImpl implements VoiceChannelService {
     }
 
     @Override
-    public void connect(GuildMessageReceivedEvent event) {
+    public void connect(MessageReceivedEvent event) {
         Guild guild = event.getGuild();
         GuildVoiceState state = event.getMember().getVoiceState();
-        if (!state.inVoiceChannel()) {
+        if (!state.inAudioChannel()) {
             event.getChannel().sendMessage("ボイスチャンネルに入ってから呼んでください").queue();
             return;
         }
 
-        VoiceChannel channel = state.getChannel();
+        VoiceChannel channel = state.getChannel().asVoiceChannel();
         AudioManager manager = guild.getAudioManager();
 
         getGuildAudioPlayer(guild);
@@ -61,13 +59,13 @@ public class VoiceChannelServiceImpl implements VoiceChannelService {
     }
 
     @Override
-    public void disconnect(GuildMessageReceivedEvent event) {
+    public void disconnect(MessageReceivedEvent event) {
         event.getGuild().getAudioManager().closeAudioConnection();
     }
 
     @Override
     public void textToSpeech(String text, Guild guild) {
         ByteString audioContents = googleTextToSpeechDao.getAudioContents(text);
-        guildInstanceMap.get(guild.getId()).getSendHandler().enqueue(audioContents.toByteArray());
+        getGuildAudioPlayer(guild).getSendHandler().enqueue(audioContents.toByteArray());
     }
 }

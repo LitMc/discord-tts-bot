@@ -3,12 +3,13 @@ package jln.hobby.discordttsbot.listener;
 import jln.hobby.discordttsbot.property.TtsBotProperties;
 import jln.hobby.discordttsbot.service.VoiceChannelService;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+
+import javax.annotation.Nonnull;
 
 /**
  * テキストを受け取り音声を返すListener
@@ -27,7 +28,7 @@ public class TextToSpeechListener extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
+    public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
         if (event.getAuthor().isBot()) {
             return;
         }

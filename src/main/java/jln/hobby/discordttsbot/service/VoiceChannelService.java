@@ -1,7 +1,7 @@
 package jln.hobby.discordttsbot.service;
 
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 /**
  * 入退室などボイスチャンネル関連を扱うサービス
@@ -10,12 +10,12 @@ public interface VoiceChannelService {
     /**
      * ボイスチャンネルに入室する
      */
-    void connect(GuildMessageReceivedEvent event);
+    void connect(MessageReceivedEvent event);
 
     /**
      * ボイスチャンネルから退室する
      */
-    void disconnect(GuildMessageReceivedEvent event);
+    void disconnect(MessageReceivedEvent event);
 
     /**
      * テキストを読み上げる
