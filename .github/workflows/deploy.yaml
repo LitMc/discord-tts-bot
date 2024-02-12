@@ -5,18 +5,35 @@ on:
   push:
     branches: [ main ]
 jobs:
+  job_id:
+    # Add "id-token" with the intended permissions.
+    permissions:
+      contents: 'read'
+      id-token: 'write'
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
+        uses: actions/checkout@v4
+
+      - uses: 'google-github-actions/auth@v2'
         with:
-          project_id: ${{ secrets.GCP_PROJECT }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+        
       - name: Build with Maven
         run: ./mvnw clean test
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+
+      - name: Substitute bot token
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: 'src/main/appengine/app.yaml'
+        env:
+          env_variables.BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+
+      - name: Deploy
+        run: gcloud app deploy --version=v1 --stop-previous-version

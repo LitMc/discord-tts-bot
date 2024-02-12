@@ -34,4 +34,4 @@ build/
 
 ### credentials ###
 application-personal.yaml
-key.json
+sa-private-key.json
