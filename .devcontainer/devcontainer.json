@@ -28,7 +28,8 @@
                 "vscjava.vscode-java-pack",
                 "ms-azuretools.vscode-docker",
                 "mhutchie.git-graph",
-                "vmware.vscode-boot-dev-pack"
+                "vmware.vscode-boot-dev-pack",
+                "github.vscode-github-actions"
             ]
         }
     },
