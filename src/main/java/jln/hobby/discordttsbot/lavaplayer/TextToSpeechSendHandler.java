@@ -1,13 +1,14 @@
 package jln.hobby.discordttsbot.lavaplayer;
 
 import net.dv8tion.jda.api.audio.*;
-import org.jetbrains.annotations.Nullable;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import javax.annotation.Nullable;
 
 /**
  * テキスト読み上げ音声の送信処理を担うハンドラ

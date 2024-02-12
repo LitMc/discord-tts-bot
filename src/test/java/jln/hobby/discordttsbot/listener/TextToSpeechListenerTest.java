@@ -3,7 +3,8 @@ package jln.hobby.discordttsbot.listener;
 import jln.hobby.discordttsbot.configuration.TestTtsBotConfiguration;
 import jln.hobby.discordttsbot.property.TtsBotProperties;
 import jln.hobby.discordttsbot.service.VoiceChannelService;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,35 +15,31 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(
-        classes = {
+@ContextConfiguration(classes = {
                 TestTtsBotConfiguration.class
-        },
-        initializers = ConfigDataApplicationContextInitializer.class
-)
+}, initializers = ConfigDataApplicationContextInitializer.class)
 @MockBean(classes = {
-        VoiceChannelService.class,
-        GuildMessageReceivedEvent.class
+                VoiceChannelService.class,
+                MessageReceivedEvent.class
 })
 class TextToSpeechListenerTest {
-    private final TtsBotProperties properties;
-    private final VoiceChannelService target;
-    private final GuildMessageReceivedEvent eventMock;
+        private final TtsBotProperties properties;
+        private final VoiceChannelService target;
+        private final MessageReceivedEvent eventMock;
 
-    @Autowired
-    public TextToSpeechListenerTest(
-            TtsBotProperties properties,
-            VoiceChannelService target,
-            GuildMessageReceivedEvent eventMock
-    ) {
-        this.properties = properties;
-        this.target = target;
-        this.eventMock = eventMock;
-    }
+        @Autowired
+        public TextToSpeechListenerTest(
+                        TtsBotProperties properties,
+                        VoiceChannelService target,
+                        MessageReceivedEvent eventMock) {
+                this.properties = properties;
+                this.target = target;
+                this.eventMock = eventMock;
+        }
 
-    // FIXME: メソッドチェーンのモック化がめんどうでテストできない
-    @Test
-    @DisplayName("Botによるメッセージは無視すること")
-    void testBotMessage() {
-    }
+        // FIXME: メソッドチェーンのモック化がめんどうでテストできない
+        @Test
+        @DisplayName("Botによるメッセージは無視すること")
+        void testBotMessage() {
+        }
 }

@@ -28,7 +28,7 @@ tts-bot:
       # 言語
       language-code: "ja-JP"
       # 音声名
-      name: "ja-JP-Wavenet-C"
+      name: "ja-JP-Neural2-C"
       # 性別
       ssml-gender: male
       # オーディオエンコード
