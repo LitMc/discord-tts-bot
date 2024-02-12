@@ -2,6 +2,7 @@ package jln.hobby.discordttsbot.listener;
 
 import jln.hobby.discordttsbot.configuration.TestTtsBotConfiguration;
 import jln.hobby.discordttsbot.property.TtsBotProperties;
+import jln.hobby.discordttsbot.service.CommandService;
 import jln.hobby.discordttsbot.service.VoiceChannelService;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -20,21 +21,25 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 }, initializers = ConfigDataApplicationContextInitializer.class)
 @MockBean(classes = {
                 VoiceChannelService.class,
-                MessageReceivedEvent.class
+                MessageReceivedEvent.class,
+                CommandService.class
 })
 class TextToSpeechListenerTest {
         private final TtsBotProperties properties;
         private final VoiceChannelService target;
         private final MessageReceivedEvent eventMock;
+        private final CommandService commandServiceMock;
 
         @Autowired
         public TextToSpeechListenerTest(
                         TtsBotProperties properties,
                         VoiceChannelService target,
-                        MessageReceivedEvent eventMock) {
+                        MessageReceivedEvent eventMock,
+                        CommandService commandServiceMock) {
                 this.properties = properties;
                 this.target = target;
                 this.eventMock = eventMock;
+                this.commandServiceMock = commandServiceMock;
         }
 
         // FIXME: メソッドチェーンのモック化がめんどうでテストできない
