@@ -1,7 +1,7 @@
 runtime: java11
 env: standard
-instance_class: F1
+instance_class: B1
 env_variables:
   BOT_TOKEN: "dummy"
-automatic_scaling:
-  min_instances: 1
+manual_scaling:
+  instances: 1  # 常に稼働させるインスタンス数を1に設定
