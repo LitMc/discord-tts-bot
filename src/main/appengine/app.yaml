@@ -1,3 +1,7 @@
 runtime: java11
+env: standard
+instance_class: F1
 env_variables:
   BOT_TOKEN: "dummy"
+automatic_scaling:
+  min_instances: 1
