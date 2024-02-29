@@ -1,4 +1,4 @@
-_runtime: java11
+runtime: java11
 instance_class: B1
 env_variables:
   BOT_TOKEN: "dummy"
