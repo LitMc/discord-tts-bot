@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.springframework.stereotype.Component;
 
-import java.time.OffsetDateTime;
 import java.util.Objects;
 
 import javax.annotation.Nonnull;
@@ -23,7 +22,7 @@ public class TextToSpeechListener extends ListenerAdapter {
     private final String disconnectCommand;
     private final VoiceChannelService voiceChannelService;
     private final CommandService commandService;
-    private OffsetDateTime joinTime;
+    private boolean inVoiceChannel;
 
     public TextToSpeechListener(
             TtsBotProperties properties,
@@ -33,7 +32,7 @@ public class TextToSpeechListener extends ListenerAdapter {
         this.disconnectCommand = properties.command.disconnect;
         this.voiceChannelService = voiceChannelService;
         this.commandService = commandService;
-        this.joinTime = OffsetDateTime.now();
+        this.inVoiceChannel = false;
     }
 
     @Override
@@ -45,16 +44,16 @@ public class TextToSpeechListener extends ListenerAdapter {
         String content = message.getContentRaw();
 
         if (Objects.equals(content, connectCommand)) {
-            joinTime = OffsetDateTime.now();
             voiceChannelService.connect(event);
+            inVoiceChannel = true;
             return;
         } else if (Objects.equals(content, disconnectCommand)) {
             voiceChannelService.disconnect(event);
+            inVoiceChannel = false;
             return;
         }
 
-        // Skip messages received while being absent
-        if (event.getMessage().getTimeCreated().isBefore(joinTime)) {
+        if (!inVoiceChannel) {
             return;
         }
 
