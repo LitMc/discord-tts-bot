@@ -1,7 +1,4 @@
 runtime: java11
-instance_class: B1
+instance_class: F1
 env_variables:
   BOT_TOKEN: "dummy"
-basic_scaling:
-  max_instances: 1
-  idle_timeout: 20m
